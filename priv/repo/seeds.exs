@@ -11,11 +11,31 @@ case Sigil.Auth.register(%{email: "admin@example.com", password: "admin123"}) do
   {:error, _} -> IO.puts("· Admin user already exists")
 end
 
-# --- Blog Posts (loaded from external JSON) ---
+# --- Blog Posts (loaded from JSON bundled in priv/data/) ---
 
-blog_posts_path = Path.join(:code.priv_dir(:adam_journal), "data/blog_posts.json")
+blog_posts_path =
+  cond do
+    # Try :code.priv_dir (works in dev and most releases)
+    match?({:ok, _}, :code.priv_dir(:adam_journal) |> then(&{:ok, &1})) &&
+      File.exists?(Path.join(:code.priv_dir(:adam_journal), "data/blog_posts.json")) ->
+      Path.join(:code.priv_dir(:adam_journal), "data/blog_posts.json")
 
-if File.exists?(blog_posts_path) do
+    # Try Application.app_dir (works in releases)
+    function_exported?(Application, :app_dir, 2) &&
+      File.exists?(Application.app_dir(:adam_journal, "priv/data/blog_posts.json")) ->
+      Application.app_dir(:adam_journal, "priv/data/blog_posts.json")
+
+    # Try relative to this seeds file (fallback)
+    File.exists?(Path.join([__DIR__, "..", "data", "blog_posts.json"])) ->
+      Path.join([__DIR__, "..", "data", "blog_posts.json"])
+
+    true ->
+      nil
+  end
+
+IO.puts("Blog posts path: #{inspect(blog_posts_path)}")
+
+if blog_posts_path && File.exists?(blog_posts_path) do
   posts =
     blog_posts_path
     |> File.read!()
