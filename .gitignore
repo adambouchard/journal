@@ -1,0 +1,11 @@
+/_build/
+/deps/
+/doc/
+/.fetch
+/priv/static/uploads/
+erl_crash.dump
+*.ez
+*.beam
+/config/*.secret.exs
+.env
+.elixir_ls/

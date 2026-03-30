@@ -1,0 +1,23 @@
+# render.yaml — Deploy to Render with one click
+# https://render.com/docs/infrastructure-as-code
+
+services:
+  - type: web
+    name: adam-journal
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: adam-journal-db
+          property: connectionString
+
+databases:
+  - name: adam-journal-db
+    plan: free
+    databaseName: adam_journal_prod
