@@ -41,19 +41,5 @@ defmodule AdamJournal.Router do
 
   live "/admin/settings", AdamJournal.Admin.SettingsLive, auth: true, layout: {AdamJournal.Layout, :admin}
 
-  # Catch-all: redirect unknown pages to home (skip assets/uploads)
-  get "/*_path" do
-    case conn.path_info do
-      ["assets" | _] -> conn
-      ["uploads" | _] -> conn
-      ["__sigil" | _] -> conn
-      _ ->
-        conn
-        |> Plug.Conn.put_resp_header("location", "/")
-        |> Plug.Conn.send_resp(302, "")
-        |> Plug.Conn.halt()
-    end
-  end
-
   sigil_routes()
 end
