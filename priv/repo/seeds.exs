@@ -13,7 +13,7 @@ end
 
 # --- Blog Posts (loaded from external JSON) ---
 
-blog_posts_path = "/Users/adambouchard/apps/list/blog_posts.json"
+blog_posts_path = Path.join(:code.priv_dir(:adam_journal), "data/blog_posts.json")
 
 if File.exists?(blog_posts_path) do
   posts =
