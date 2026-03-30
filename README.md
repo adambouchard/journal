@@ -1,6 +1,10 @@
-# Adam Journal
+# Adam's Journal
 
-Built with [Sigil](https://github.com/sigilframework/sigil) — the full-stack framework for AI products.
+> **🌐 Live at [adambouchard.com](https://adambouchard.com)**
+
+A personal blog about AI, strategy & systems — built entirely with [Sigil](https://github.com/sigilframework/sigil), the full-stack Elixir framework for AI-powered products.
+
+This is an example of a production application built on Sigil. It includes an AI chat assistant, tag-based filtering, slug-based SEO-friendly URLs, multi-agent routing, and a full admin panel. Everything was generated with `mix sigil.new` and customized from there.
 
 ## Getting Started
 
